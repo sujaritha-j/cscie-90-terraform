@@ -5,7 +5,7 @@ resource "aws_vpc" "vpc_master" {
   #1 Adds the tags to the VPC - key-value pairs can be utilized for billing, ownership, automation, access control, and many other use cases
   # The below will use the workspace name-pc as the tag name
   tags = {
-    Name = "${terraform.workspace}-vpc"
+    Name = "${terraform.workspace}-terra-vpc"
   }
 
 }
@@ -25,7 +25,7 @@ resource "aws_subnet" "public_subnet" {
   cidr_block        = "10.0.1.0/24"
 
   tags = {
-    Name = "${terraform.workspace}-subnet"
+    Name = "${terraform.workspace}-terra-subnet"
   }
 }
 
@@ -34,7 +34,7 @@ resource "aws_route_table" "public_route_table" {
   vpc_id = aws_vpc.vpc_master.id
 
   tags = {
-    Name = "${terraform.workspace}-route-table"
+    Name = "${terraform.workspace}-terra-route-table"
   }
 }
 
@@ -58,7 +58,7 @@ resource "aws_internet_gateway" "igw" {
   vpc_id = aws_vpc.vpc_master.id
 
   tags = {
-    Name = "${terraform.workspace}-igw"
+    Name = "${terraform.workspace}-terra-igw"
   }
 }
 
@@ -66,7 +66,7 @@ resource "aws_internet_gateway" "igw" {
 #Create SG for allowing http from anywhere. TCP/22 inbound should be restricted to your ip or ip range for EC2 Instance Connect
 
 resource "aws_security_group" "sg" {
-  name        = "${terraform.workspace}-sg"
+  name        = "${terraform.workspace}-terra-sg"
   description = "Allow TCP/22"
   vpc_id      = aws_vpc.vpc_master.id
   ingress {
@@ -90,6 +90,6 @@ resource "aws_security_group" "sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
   tags = {
-    Name = "${terraform.workspace}-securitygroup"
+    Name = "${terraform.workspace}-terra-securitygroup"
   }
 }
